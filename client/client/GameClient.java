@@ -49,12 +49,14 @@ public class GameClient extends Canvas implements Runnable {
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData(); 
 	
-	public static final String ip = "127.0.0.1";
+	public static final String ip = "mholeys.no-ip.org";
 	public static final int port = 1561;
 	
 	public List<Player> players = new ArrayList<Player>();
 	public Player client;
 	public World world;
+	
+	private ClientListener listener;
 	
 	public static void main(String[] args) {
 		GameClient game = new GameClient();
@@ -137,6 +139,9 @@ public class GameClient extends Canvas implements Runnable {
 		int x = client.getX();
 		int y = client.getY();
 		keyboard.update();
+		if (keyboard.quit) {
+			disconnect();
+		}
 		if (keyboard.up) {
 			y--;
 		}
@@ -196,7 +201,7 @@ public class GameClient extends Canvas implements Runnable {
 		String username = JOptionPane.showInputDialog("Enter a username");
 		try {
 			socket = new DatagramSocket();
-			ClientListener listener = new ClientListener(socket, this);
+			listener = new ClientListener(socket, this);
 			Random r = new Random();
 			client = new Player(username, r.nextInt(10 << 4) + 32, r.nextInt(10 << 4) + 32);
 			byte[] connect = (PacketType.CONNECT.getIDString() + client.getUsername() + ";" + client.getX() + ";" + client.getY()).getBytes();
@@ -253,6 +258,8 @@ public class GameClient extends Canvas implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		listener.stopRunning();
+		stop();
 	}
 	
 }

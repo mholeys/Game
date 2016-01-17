@@ -100,7 +100,8 @@ public class GameServer extends Thread {
 			sendPlayers(p);
 			break;
 		case DISCONNECT:
-			sendToAll(packet);			
+			sendToAll(packet);
+			players.get(players.indexOf(p)).remove();
 			players.remove(p);
 			break;
 		case INVALID:

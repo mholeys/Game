@@ -69,6 +69,10 @@ public class Player extends Entity {
 		confirmRequest = false;
 	}
 	
+	public void remove() {
+		shouldRemove = true;
+	}
+	
 	public void hasConfirmed() {
 		confirmRequest = false;
 		lastCheck = Player.CHECK_INTERVAL;
