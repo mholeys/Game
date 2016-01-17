@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import client.Settings;
 import packets.PacketType;
 import packets.PlayerData;
 import server.entity.Entity;
