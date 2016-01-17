@@ -1,0 +1,23 @@
+https://systembash.com/a-simple-java-udp-server-and-udp-client/
+
+Player {
+  username, x, y
+}
+
+Packet {
+  movePlayer - "username;x;y"
+  entity_update - "x;y;id"
+  connect    - "username;x;y"
+  disconnect - "username"
+  confirm 	 - "nothing"
+}
+
+entity {
+  add to sever - done
+  x, y, id
+}
+
+Keyboard
+Mouse
+Sprites
+SpriteSheets
