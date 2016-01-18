@@ -3,6 +3,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -33,9 +35,9 @@ public class GameClient extends Canvas implements Runnable {
 
 	public DatagramSocket socket;
 	
-	private static int width = 480;
+	private static int width = 200;
 	private static int height = width / 16 * 9;
-	public static int pixelScale = 1;
+	public static int pixelScale = 2;
 	
 	private boolean running = false; 
 	
@@ -66,12 +68,12 @@ public class GameClient extends Canvas implements Runnable {
 		game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		game.frame.setLocationRelativeTo(null);
 		game.frame.setVisible(true);
-		
+
 		game.start();
 	}
 	
 	public GameClient() {
-		Dimension size = new Dimension(width, height);
+		Dimension size = new Dimension(width * pixelScale, height * pixelScale);
 		this.setPreferredSize(size);
 		screen = new Screen(width, height);
 		frame = new JFrame();
@@ -82,6 +84,44 @@ public class GameClient extends Canvas implements Runnable {
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
 		setupNetwork();
+		frame.addWindowListener(new WindowListener() {
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				disconnect();
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				
+			}
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+				
+			}
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+				
+			} 
+			
+		});
 	}
 	
 	public synchronized void start() {
