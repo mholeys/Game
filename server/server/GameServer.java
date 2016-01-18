@@ -139,19 +139,21 @@ public class GameServer extends Thread {
 		}
 	}
 	
-	private void sendEntities(Player player) {
-		List<Entity> entities = world.getEntities(); 
-		byte[][] data = new byte[entities.size()][Settings.PACKET_LENGTH];
-		for (int i = 0; i < entities.size(); i++) {
-			Entity e = entities.get(i);
+	private void sendEntities(Player player) { 
+		ListIterator<Entity> entityIterator = world.getEntities().listIterator();
+		byte[][] data = new byte[world.getEntities().size()][Settings.PACKET_LENGTH];
+		int entityIndex = 0;
+		while (entityIterator.hasNext()) {
+			Entity e = entityIterator.next();
 			byte[] entityData = e.getData();
-			System.arraycopy(PacketType.ENTITY_UPDATE.getIDString().getBytes(), 0, data[i], 0, 4);
-			System.arraycopy(entityData, 0, data[i], 4, entityData.length);
+			System.arraycopy(PacketType.ENTITY_UPDATE.getIDString().getBytes(), 0, data[entityIndex], 0, 4);
+			System.arraycopy(entityData, 0, data[entityIndex++], 4, entityData.length);
 		}
-		for (int i = 0; i < entities.size(); i++) {
+		for (int i = 0; i < world.getEntities().size(); i++) {
 			DatagramPacket packet = new DatagramPacket(data[i], 0, Settings.PACKET_LENGTH);
 			sendTo(packet, player);
 		}
+		System.out.println("Sent " + world.getEntities().size() + " to " + player.getUsername());
 	}
 	
 	private void sendToAll(DatagramPacket packet) {
