@@ -27,12 +27,11 @@ public class Entity {
 	}
 	
 	public boolean isFree(int x, int y) {
-		boolean free = true;
 		for (int corner = 0; corner < 4; corner++) {
 			int xTile = (x + 15*(corner % 2)) / 16;
 			int yTile = (y + 15*(corner / 2)) / 16;
 			if (world.getTile(xTile, yTile).isSolid()) {
-				free = false;
+				return false;
 			}
 		}
 		ListIterator<Entity> eIterator = world.getEntities().listIterator();
@@ -41,10 +40,10 @@ public class Entity {
 			Rectangle eR = new Rectangle(e.getX(), e.getY(), 16, 16);
 			Rectangle pR = new Rectangle(x, y, 16, 16);
 			if (eR.intersects(pR)) {
-				free = false;
+				return false;
 			}
 		}
-		return free;
+		return true;
 	}
 	
 	public void move(int x, int y) {

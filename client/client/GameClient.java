@@ -194,12 +194,6 @@ public class GameClient extends Canvas implements Runnable {
 		if (keyboard.right) {
 			x++;
 		}
-		for (int corner = 0; corner < 4; corner++) {
-			int xTile = (x + 15*(corner % 2)) / 16;
-			int yTile = (y + 15*(corner / 2)) / 16;
-			corners[corner][0] = xTile << 4;
-			corners[corner][1] = yTile << 4;
-		}
 		if ((x != client.getX()) || (y != client.getY())) {
 			moveClient(x, y);
 		}
@@ -217,11 +211,7 @@ public class GameClient extends Canvas implements Runnable {
 		double xScroll = (client.getX() - (screen.width/2));
 		double yScroll = (client.getY() - (screen.height/2));
 		world.render((int) xScroll, (int) yScroll, screen);
-		
-		screen.renderSprite(corners[0][0], corners[0][1], Sprites.debug1, true);
-		screen.renderSprite(corners[1][0], corners[1][1], Sprites.debug1, true);
-		screen.renderSprite(corners[2][0], corners[2][1], Sprites.debug1, true);
-		screen.renderSprite(corners[3][0], corners[3][1], Sprites.debug1, true);
+
 		
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];

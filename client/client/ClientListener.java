@@ -78,12 +78,12 @@ public class ClientListener extends Thread {
 		case ENTITY_UPDATE:
 			System.out.println("Entity updated");
 			ed = new EntityData(data);
-			e = new Entity(ed.getID(), ed.getX(), ed.getY());
+			e = new Entity(ed.getX(), ed.getY(), ed.getID());
 			if (client.world.entities.contains(e)) {
 				int index = client.world.entities.indexOf(e);
 				client.world.entities.get(index).move(ed.getX(), ed.getY());
 			} else {
-				client.world.entities.add(e);
+				client.world.addEntity(e);
 			}
 			break;
 		case CONFIRM_ONLINE:
