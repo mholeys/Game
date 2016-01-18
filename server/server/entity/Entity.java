@@ -1,33 +1,50 @@
 package server.entity;
 
+import java.awt.Rectangle;
+import java.util.ListIterator;
+
 import server.GameServer;
+import server.world.World;
 
 public class Entity {
 
 	protected int x;
 	protected int y;
 	protected int id = -1;
+	protected World world;
 	
-	public Entity(int x, int y) {
+	public Entity(int x, int y, World world) {
 		this.x = x;
 		this.y = y;
+		this.world = world;
 	}
 	
-	public Entity(int x, int y, int id) {
+	public Entity(int x, int y, int id, World world) {
 		this.x = x;
 		this.y = y;
 		this.id = id;
+		this.world = world;
 	}
 	
 	public boolean isFree(int x, int y) {
+		boolean free = true;
 		for (int corner = 0; corner < 4; corner++) {
 			int xTile = (x + 15*(corner % 2)) / 16;
 			int yTile = (y + 15*(corner / 2)) / 16;
-			if (GameServer.world.getTile(xTile, yTile).isSolid()) {
-				return false;
+			if (world.getTile(xTile, yTile).isSolid()) {
+				free = false;
 			}
 		}
-		return true;
+		ListIterator<Entity> eIterator = world.getEntities().listIterator();
+		while (eIterator.hasNext()) {
+			Entity e = eIterator.next();
+			Rectangle eR = new Rectangle(e.getX(), e.getY(), 16, 16);
+			Rectangle pR = new Rectangle(x, y, 16, 16);
+			if (eR.intersects(pR)) {
+				free = false;
+			}
+		}
+		return free;
 	}
 	
 	public void move(int x, int y) {

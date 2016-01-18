@@ -75,7 +75,7 @@ public class GameServer extends Thread {
 	public void handlePacket(int type, DatagramPacket packet) {
 		byte[] data = packet.getData(); 
 		PlayerData pd = new PlayerData(data);
-		Player p = new Player(pd.getUsername(), pd.getX(), pd.getY(), packet.getAddress(), packet.getPort());
+		Player p = new Player(pd.getUsername(), pd.getX(), pd.getY(), packet.getAddress(), packet.getPort(), world);
 		int index = players.indexOf(p);
 		if ((index == -1) && (type != PacketType.CONNECT.getID())) {
 			try {

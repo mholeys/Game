@@ -2,6 +2,8 @@ package server.entity;
 
 import java.net.InetAddress;
 
+import server.world.World;
+
 public class Player extends Entity {
 
 	private String username;
@@ -13,8 +15,8 @@ public class Player extends Entity {
 	private boolean confirmRequest = false;
 	private boolean shouldRemove = false;
 	
-	public Player(String username, int x, int y, InetAddress address, int port) {
-		super(x, y);
+	public Player(String username, int x, int y, InetAddress address, int port, World world) {
+		super(x, y, world);
 		this.username = username;
 		this.address = address;
 		this.port = port;

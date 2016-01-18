@@ -78,7 +78,7 @@ public class World {
 				if (entityAttributes.length == 2) {
 					int x = Integer.parseInt(entityAttributes[0]);
 					int y = Integer.parseInt(entityAttributes[1]);
-					Entity e = new Entity(x << 4, y << 4, i++);
+					Entity e = new Entity(x << 4, y << 4, i++, this);
 					addEntity(e);
 				}
 			}
