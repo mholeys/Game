@@ -30,5 +30,13 @@ public enum PacketType {
 		}
 		return INVALID;
 	}
+
+	public static PacketType type(byte[] data) {
+		if (data.length > 4) {
+			int type = Integer.parseInt(new String(data[0] + "" + data[1] + "" + data[2] + "" + data[3]));
+			return PacketType.valueOf(type);
+		}
+		return null;
+	}
 	
 }

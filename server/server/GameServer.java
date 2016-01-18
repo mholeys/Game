@@ -76,7 +76,20 @@ public class GameServer extends Thread {
 		byte[] data = packet.getData(); 
 		PlayerData pd = new PlayerData(data);
 		Player p = new Player(pd.getUsername(), pd.getX(), pd.getY(), packet.getAddress(), packet.getPort());
-		int index = players.indexOf(p);;
+		int index = players.indexOf(p);
+		if ((index == -1) && (type != PacketType.CONNECT.getID())) {
+			try {
+				byte[] disData = new byte[Settings.PACKET_LENGTH];
+				byte[] tempData = (PacketType.DISCONNECT.getIDString() + pd.getUsername()).getBytes();
+				System.arraycopy(tempData, 0, disData, 0, tempData.length);
+				DatagramPacket disconnect = new DatagramPacket(disData, Settings.PACKET_LENGTH, packet.getAddress(), packet.getPort());
+				socket.send(disconnect);
+				System.err.println("Removed client that thought it was connected");
+				return;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		switch(PacketType.valueOf(type)) {
 		case CONNECT:
 			if (players.contains(p)) {

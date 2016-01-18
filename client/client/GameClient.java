@@ -51,7 +51,7 @@ public class GameClient extends Canvas implements Runnable {
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData(); 
 	
-	public static final String ip = "mholeys.no-ip.org";
+	public static final String ip = "127.0.0.1";//"mholeys.no-ip.org";
 	public static final int port = 1561;
 	
 	public List<Player> players = new ArrayList<Player>();
